@@ -138,6 +138,12 @@ volumeMounts:
 [2]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/?utm_source=chatgpt.com "Configure a Pod to Use a PersistentVolume for Storage"
 
 
+<hr style="border: none; border-top: 5px solid blue;">
+
+
+
+
+
 
 
 結論から言うと、その認識は正確ではありません。
@@ -249,6 +255,10 @@ mkdir /work/data
 * StatefulSetでPVCが使い回される具体的な仕組み（pod ordinal + PVC名）
 
 まで踏み込みます。
+
+
+<hr style="border: none; border-top: 5px solid blue;">
+
 
 
 
@@ -431,6 +441,10 @@ mkdir -p /work/oradata /work/dpump /work/scripts/setup
 
 
 
+<hr style="border: none; border-top: 5px solid blue;">
+
+
+
 
 結論から言うと：
 
@@ -586,6 +600,10 @@ PVC:
 * Data Pump の DIRECTORY オブジェクトとの対応設計
 
 まで具体的に説明できます。
+
+
+
+<hr style="border: none; border-top: 5px solid blue;">
 
 
 
