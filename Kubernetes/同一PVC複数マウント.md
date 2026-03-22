@@ -138,7 +138,7 @@ volumeMounts:
 [2]: https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/?utm_source=chatgpt.com "Configure a Pod to Use a PersistentVolume for Storage"
 
 
-<hr style="border: none; border-top: 5px solid blue;">
+<div style="margin-top:300px;"></div>
 
 
 
@@ -257,7 +257,7 @@ mkdir /work/data
 まで踏み込みます。
 
 
-<hr style="border: none; border-top: 5px solid blue;">
+<div style="margin-top:300px;"></div>
 
 
 
@@ -441,7 +441,7 @@ mkdir -p /work/oradata /work/dpump /work/scripts/setup
 
 
 
-<hr style="border: none; border-top: 5px solid blue;">
+<div style="margin-top:300px;"></div>
 
 
 
@@ -603,7 +603,7 @@ PVC:
 
 
 
-<hr style="border: none; border-top: 5px solid blue;">
+<div style="margin-top:300px;"></div>
 
 
 
