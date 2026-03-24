@@ -436,3 +436,249 @@ OracleDB で Data Pump 用ディレクトリも永続化したいなら、`/opt/
 ただ、**カスタムイメージ不可**という前提なら、この形がかなり現実的です。
 
 必要なら次に、`/opt/oracle/dpump` も含めた `subPath` 版の StatefulSet をそのまま出します。
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+結論：
+
+> **はい、initContainerでもConfigMapのスクリプトは使えます。**
+> しかも、**非常に一般的で推奨されるパターン**です。
+
+---
+
+# ■ 仕組み
+
+やることは main container と同じです。
+
+1. ConfigMap にスクリプトを入れる
+2. initContainer に Volume としてマウント
+3. `command` で実行
+
+---
+
+# ■ 例（そのまま使える形）
+
+## ConfigMap
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-script
+data:
+  init.sh: |
+    #!/bin/sh
+    set -e
+
+    echo "initContainer start"
+
+    # ディレクトリ作成
+    mkdir -p /work/data
+
+    # 権限調整
+    chown -R 1001:1001 /work/data
+
+    echo "initContainer done"
+```
+
+---
+
+## Pod / StatefulSet 側
+
+```yaml
+initContainers:
+  - name: init
+    image: oraclelinux:9
+    command: ["/bin/sh", "/opt/init/init.sh"]
+    securityContext:
+      runAsUser: 0
+    volumeMounts:
+      - name: init-script
+        mountPath: /opt/init
+        readOnly: true
+      - name: db-storage
+        mountPath: /work
+
+containers:
+  - name: oracle
+    image: container-registry.oracle.com/database/enterprise:latest
+    volumeMounts:
+      - name: db-storage
+        mountPath: /opt/oracle/oradata
+
+volumes:
+  - name: init-script
+    configMap:
+      name: init-script
+      defaultMode: 0755
+```
+
+---
+
+# ■ 重要ポイント
+
+## 1. main container と完全に同じ使い方でOK
+
+```yaml
+command: ["/bin/sh", "/opt/init/init.sh"]
+```
+
+👉 問題なく実行される
+
+---
+
+## 2. initContainerは「必ず先に終わる」
+
+これは postStart との決定的な違いです。
+
+```text
+initContainer → 完了
+↓
+main container 起動
+```
+
+👉 順序保証あり（非常に重要）
+
+---
+
+## 3. 共有Volumeでデータを渡す
+
+initContainerとmain containerは：
+
+* filesystemは別
+* volumeだけ共有
+
+```text
+initContainer → /work に書く
+main container → /opt/oracle/oradata で読む
+```
+
+---
+
+## 4. root作業を分離できる
+
+```yaml
+initContainer:
+  runAsUser: 0
+
+main:
+  runAsUser: 1001
+```
+
+👉 セキュリティ的に良い設計
+
+---
+
+# ■ あなたのケースへの適用
+
+あなたの要件：
+
+* proxy設定
+* パッケージインストール
+* ユーザ作成
+* Oracle起動
+
+これを分解すると：
+
+---
+
+## initContainerでやるべきこと
+
+* chown / chmod
+* ディレクトリ作成
+* データ配置
+
+👉 OK
+
+---
+
+## initContainerでやるべきでないこと
+
+* dnf install（main containerに反映されない）
+* useradd（main containerに反映されない）
+
+👉 ここが重要
+
+---
+
+# ■ 重要な制約（再確認）
+
+initContainerは：
+
+```text
+別コンテナ
+```
+
+なので：
+
+| 処理              | mainに影響 |
+| --------------- | ------- |
+| ファイル作成（volume内） | 〇       |
+| パッケージインストール     | ✕       |
+| /etc/passwd変更   | ✕       |
+
+---
+
+# ■ 正しい使い分け
+
+| 方法                  | 用途            |
+| ------------------- | ------------- |
+| initContainer       | 前処理（volume操作） |
+| ConfigMap + command | 本体起動前処理       |
+| postStart           | 軽い後処理         |
+
+---
+
+# ■ 結論
+
+> initContainerでのコマンドもConfigMapを使えますか？
+
+**使えます。完全に問題ありません。**
+
+ただし：
+
+> **initContainerでやった「OS変更（パッケージ・ユーザ）」はmainには引き継がれない**
+
+---
+
+# ■ あなたの最適構成（整理）
+
+今回の要件なら：
+
+### 必須
+
+* ConfigMap + command（bootstrap.sh）
+
+  * proxy
+  * dnf install
+  * useradd
+  * Oracle起動
+
+### 補助
+
+* initContainer（ConfigMap）
+
+  * chown
+  * ディレクトリ準備
+
+---
+
+必要なら次に：
+
+* 「initContainer + bootstrap併用の完全StatefulSet」
+* Oracle用に最適化したディレクトリ設計
+* fsGroupとの組み合わせ
+
+まで具体化できます。
