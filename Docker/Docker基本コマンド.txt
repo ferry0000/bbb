@@ -17,12 +17,9 @@ docker run -it ubuntu bash
 docker run --name my-container -it ubuntu bash
 
 docker run -dit
-## `-d`（detached）
-**バックグラウンド起動**
-## `-i`（interactive）
-**標準入力（stdin）を開いたままにする**
-## `-t`（tty）
-**疑似ターミナルを割り当てる**
+・-d（detached）バックグラウンド起動
+・-i（interactive）標準入力（stdin）を開いたままにする
+・-t（tty）疑似ターミナルを割り当てる
 
 コンテナ一覧
 docker ps -a
