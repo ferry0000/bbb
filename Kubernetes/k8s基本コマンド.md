@@ -1,0 +1,45 @@
+
+
+ノード一覧
+kubectl get nodes
+kubectl get nodes -o wide
+
+Pod一覧
+kubectl get pods -A
+
+Pod詳細
+kubectl describe pod <Pod名>
+
+テストPod作成
+kubectl run nginx --image=nginx
+テストPod削除
+kubectl delete pod nginx
+
+yaml適用
+kubectl apply -f file.yaml
+
+Podログ
+kubectl logs -f <Pod名>
+
+kubectl exec -it <Pod名> -- sh
+
+オブジェクト一覧
+Pod:po
+Node:
+Service:svc
+StorageClass:sc
+pvc
+pv
+
+
+
+イメージ一覧
+sudo k3s ctr -n k8s.io images list
+
+イメージインポート
+sudo k3s ctr -n k8s.io images import my-oracle-free-custom.tar
+
+k3sで直接pull
+sudo k3s ctr -n k8s.io images pull docker.io/library/nginx:latest
+イメージ削除
+sudo k3s ctr -n k8s.io images rm <image>
