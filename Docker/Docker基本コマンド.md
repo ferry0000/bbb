@@ -1,0 +1,103 @@
+
+
+Dockerサービスの自動起動設定
+sudo systemctl enable docker
+
+Docker起動
+sudo systemctl start docker
+Docker停止
+sudo systemctl stop docker
+
+
+動作確認用コンテナの実行
+docker run hello-world
+新規ubuntuコンテナ作成・起動・ログイン
+docker run -it ubuntu bash
+新規ubuntuコンテナ作成・起動・ログイン（コンテナ名指定）
+docker run --name my-container -it ubuntu bash
+
+docker run -dit
+## `-d`（detached）
+**バックグラウンド起動**
+## `-i`（interactive）
+**標準入力（stdin）を開いたままにする**
+## `-t`（tty）
+**疑似ターミナルを割り当てる**
+
+コンテナ一覧
+docker ps -a
+コンテナ詳細
+docker inspect コンテナ名
+コンテナログ
+docker logs コンテナ名
+プロセス確認（コンテナ内）
+docker top コンテナ名
+
+コンテナログイン
+docker exec -it コンテナ名 bash
+
+コンテナ停止せず、ログアウト
+Ctrl + P → Ctrl + Q
+コンテナ停止して、ログアウト（docker execの場合、コンテナ停止しない）
+exit
+
+イメージ一覧
+docker images
+
+コンテナ再起動
+docker start コンテナ名
+
+コンテナ停止
+docker stop
+
+コンテナ削除
+docker rm コンテナ名
+全コンテナ削除
+docker rm $(docker ps -aq)
+イメージ削除
+docker rmi イメージ名
+
+コンテナリネーム
+docker rename old-name new-name
+
+
+ボリューム作成
+docker volume create test-vol
+ボリューム設定し、新規ubuntuコンテナ作成・実行
+docker run -it -v test-vol:/data ubuntu bash
+ボリューム削除
+docker volume rm ボリューム名
+
+
+ビルド（Dockerfileがあるディレクトリ）
+docker build -t my-oracle-free:custom .
+ビルド（Dockerfile.oracleがあるディレクトリ）
+docker build -t my-oracle-free:custom -f Dockerfile.oracle .
+
+イメージエクスポート
+docker save -o my-oracle-free-custom.tar my-oracle-free:custom
+
+
+正確なディスク使用量の確認
+docker system df
+Docker情報
+docker info
+
+
+
+restartポリシー設定
+docker run -dit --restart always
+・no	再起動しない（デフォルト）
+・always	常に再起動
+・unless-stopped	手動停止以外は再起動
+・on-failure	異常終了時のみ
+
+
+
+
+永続化なしでoracleDB起動（検証用）
+docker run -dit \
+  --name oracle-test \
+  -p 1521:1521 \
+  -e ORACLE_PWD=Test12345 \
+  my-oracle-free:custom
