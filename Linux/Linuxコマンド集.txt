@@ -79,6 +79,17 @@ vi ファイル名　テキストファイルの閲覧と編集
 　　　　　　　　　
 　　　　　　　　「INSERT」モード→i
 
+sed 's/foo/bar/' file.txt　foo → bar に置換して標準出力
+sed 's/foo/bar/g' file.txt　全置換して標準出力
+sed -i 's/foo/bar/g' file.txt　ファイル書き換え
+sed -i.bak 's/foo/bar/g' file.txt　バックアップ付き
+sed '/ERROR/s/foo/bar/' file.txt　ERROR を含む行だけ対象
+sed 's/f.o/bar/' file.txt　任意文字
+sed 's/fo*/bar/' file.txt　繰り返し
+sed -i 's|baseurl=.*|#&|' file　マッチした文字列（&）をコメントアウト
+sed -i 's|#mirrorlist=|mirrorlist=|' file　コメント解除
+
+
 view ファイル名　参照専用vi
 
 man コマンド名　マニュアル表示
