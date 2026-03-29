@@ -16,6 +16,7 @@ ls -a　隠しファイル表示
 pwd　カレント・ディレクトリを取得「print working directory」
 
 cat ファイル名　ファイルの中身を確認
+cat -n ファイル名　行番号付き
 
 head -n n　先頭のn行を抜き出す
 tail -n n　末尾のn行を抜き出す
