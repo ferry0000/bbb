@@ -19,6 +19,7 @@ yaml適用
 kubectl apply -f file.yaml
 
 Podログ
+kubectl logs <Pod名>
 kubectl logs -f <Pod名>
 
 kubectl exec -it <Pod名> -- sh
