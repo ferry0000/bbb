@@ -32,6 +32,7 @@ docker top コンテナ名
 
 コンテナログイン
 docker exec -it コンテナ名 bash
+docker exec -it -u root コンテナ名 bash
 
 コンテナ停止せず、ログアウト
 Ctrl + P → Ctrl + Q
