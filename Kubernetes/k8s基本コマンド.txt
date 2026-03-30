@@ -55,3 +55,6 @@ sudo k3s ctr -n k8s.io images rm イメージ名:タグ名
 
 コンテナ一覧
 sudo crictl ps
+
+nerdctlでDockerfileからビルド
+sudo nerdctl -n k8s.io build -t my-app:latest .
