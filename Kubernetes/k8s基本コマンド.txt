@@ -58,3 +58,6 @@ sudo crictl ps
 
 nerdctlでDockerfileからビルド
 sudo nerdctl -n k8s.io build -t my-app:latest .
+nerdctlでエクスポート・インポート
+nerdctl save -o image.tar my-app:latest
+nerdctl load -i image.tar
