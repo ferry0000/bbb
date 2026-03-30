@@ -24,6 +24,11 @@ kubectl logs -f <Pod名>
 
 kubectl exec -it <Pod名> -- sh
 
+CPU・メモリ確認
+kubectl top pods -A
+kubectl top nodes
+sudo crictl stats　コンテナランタイム（containerd）レベル
+
 オブジェクト一覧
 Pod:po
 Node:
@@ -43,4 +48,4 @@ sudo k3s ctr -n k8s.io images import my-oracle-free-custom.tar
 k3sで直接pull
 sudo k3s ctr -n k8s.io images pull docker.io/library/nginx:latest
 イメージ削除
-sudo k3s ctr -n k8s.io images rm <image>
+sudo k3s ctr -n k8s.io images rm イメージ名:タグ名
