@@ -52,8 +52,9 @@ docker stop
 docker rm コンテナ名
 全コンテナ削除
 docker rm $(docker ps -aq)
+
 イメージ削除
-docker rmi イメージ名
+docker rmi イメージ名:タグ名
 
 コンテナリネーム
 docker rename old-name new-name
@@ -76,6 +77,8 @@ docker build -t my-oracle-free:custom -f Dockerfile.oracle .
 docker save -o my-oracle-free-custom.tar my-oracle-free:custom
 
 
+メモリ使用量
+docker stats
 正確なディスク使用量の確認
 docker system df
 Docker情報
