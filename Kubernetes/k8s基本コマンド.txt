@@ -38,14 +38,20 @@ pvc
 pv
 
 
-
-イメージ一覧
-sudo k3s ctr -n k8s.io images list
-
 イメージインポート
 sudo k3s ctr -n k8s.io images import my-oracle-free-custom.tar
 
-k3sで直接pull
+イメージ一覧
+sudo crictl images
+sudo k3s ctr -n k8s.io images list
+
+k3sで直接イメージpull
+sudo crictl pull nginx:latest
 sudo k3s ctr -n k8s.io images pull docker.io/library/nginx:latest
+
 イメージ削除
+sudo crictl rmi イメージ名:タグ名
 sudo k3s ctr -n k8s.io images rm イメージ名:タグ名
+
+コンテナ一覧
+sudo crictl ps
