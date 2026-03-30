@@ -108,7 +108,10 @@ ps　プロセスの実行状態
 ps -ef　全プロセスの詳細一覧
 ps -ef | grep oracle
 
+free -h　メモリ確認
+
 top　実行中のプロセスをリアルタイム表示
+htop
 
 chmod　アクセス権限（パーミッション）の変更
 
