@@ -76,6 +76,11 @@ docker build -t my-oracle-free:custom -f Dockerfile.oracle .
 イメージエクスポート
 docker save -o my-oracle-free-custom.tar my-oracle-free:custom
 
+イメージ履歴情報
+docker history --no-trunc nginx:latest
+イメージ設定情報
+docker inspect nginx:latest
+
 
 メモリ使用量
 docker stats
