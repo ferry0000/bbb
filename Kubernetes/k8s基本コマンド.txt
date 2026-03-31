@@ -29,13 +29,16 @@ kubectl top pods -A
 kubectl top nodes
 sudo crictl stats　コンテナランタイム（containerd）レベル
 
-オブジェクト一覧
+リソース一覧
+kubectl api-resources
 Pod:po
-Node:
+Node:no
 Service:svc
 StorageClass:sc
-pvc
-pv
+ersistentVolumeClaim:pvc
+PersistentVolume:pv
+LimitRange:limits
+ConfigMap:cm
 
 
 イメージインポート
@@ -43,7 +46,7 @@ sudo k3s ctr -n k8s.io images import my-oracle-free-custom.tar
 
 イメージ一覧
 sudo crictl images
-sudo k3s ctr -n k8s.io images list
+sudo k3s ctr -n k8s.io images ls
 
 k3sで直接イメージpull
 sudo crictl pull nginx:latest
@@ -55,6 +58,9 @@ sudo k3s ctr -n k8s.io images rm イメージ名:タグ名
 
 コンテナ一覧
 sudo crictl ps
+
+イメージエクスポート
+sudo ctr -n k8s.io images export my-app.tar my-app:latest
 
 nerdctlでDockerfileからビルド
 sudo nerdctl -n k8s.io build -t my-app:latest .
