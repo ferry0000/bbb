@@ -56,8 +56,14 @@ sudo k3s ctr -n k8s.io images pull docker.io/library/nginx:latest
 sudo crictl rmi イメージ名:タグ名
 sudo k3s ctr -n k8s.io images rm イメージ名:タグ名
 
+イメージ情報
+sudo crictl inspecti my-app:latest
+
 コンテナ一覧
 sudo crictl ps
+
+コンテナログ
+sudo crictl logs コンテナID
 
 イメージエクスポート
 sudo ctr -n k8s.io images export my-app.tar my-app:latest
