@@ -2,13 +2,20 @@
 
 ノード一覧
 kubectl get nodes
-kubectl get nodes -o wide
-
 Pod一覧
+kubectl get pods
+拡張情報
+kubectl get pods -o wide
+yaml情報
+kubectl get pods -o yaml
+
+NameSpace指定
+kubectl get pods -n <namespace>
+全NameSpace指定
 kubectl get pods -A
 
 Pod詳細
-kubectl describe pod <Pod名>
+kubectl describe pod <pod>
 
 テストPod作成
 kubectl run nginx --image=nginx
@@ -19,15 +26,23 @@ yaml適用
 kubectl apply -f file.yaml
 
 Podログ
-kubectl logs <Pod名>
-kubectl logs -f <Pod名>
+kubectl logs <pod>
+コンテナ指定
+kubectl logs <pod> -c <container>
+ログ監視
+kubectl logs -f <pod>
 
-kubectl exec -it <Pod名> -- sh
+kubectl exec -it <pod> -- sh
 
 CPU・メモリ確認
 kubectl top pods -A
 kubectl top nodes
 sudo crictl stats　コンテナランタイム（containerd）レベル
+
+ローカル（ホスト） → コンテナ
+kubectl cp /local/file <namespace>/<pod>:/path/in/container
+コンテナ → ローカル（ホスト）
+kubectl cp <namespace>/<pod>:/path/in/container /local/path
 
 リソース一覧
 kubectl api-resources
@@ -42,22 +57,22 @@ ConfigMap:cm
 
 
 イメージインポート
-sudo k3s ctr -n k8s.io images import my-oracle-free-custom.tar
+sudo k3s ctr -n k8s.io images import my-image.tar
 
 イメージ一覧
 sudo crictl images
 sudo k3s ctr -n k8s.io images ls
 
 k3sで直接イメージpull
-sudo crictl pull nginx:latest
+sudo crictl pull docker.io/library/nginx:latest
 sudo k3s ctr -n k8s.io images pull docker.io/library/nginx:latest
 
 イメージ削除
-sudo crictl rmi イメージ名:タグ名
-sudo k3s ctr -n k8s.io images rm イメージ名:タグ名
+sudo crictl rmi docker.io/library/nginx:latest
+sudo k3s ctr -n k8s.io images rm docker.io/library/nginx:latest
 
 イメージ情報
-sudo crictl inspecti my-app:latest
+sudo crictl inspecti docker.io/library/nginx:latest
 
 コンテナ一覧
 sudo crictl ps
@@ -66,7 +81,11 @@ sudo crictl ps
 sudo crictl logs コンテナID
 
 イメージエクスポート
-sudo ctr -n k8s.io images export my-app.tar my-app:latest
+sudo ctr -n k8s.io images export my-image.tar docker.io/library/nginx:latest
+
+
+---
+nerdctlがある場合
 
 nerdctlでDockerfileからビルド
 sudo nerdctl -n k8s.io build -t my-app:latest .
