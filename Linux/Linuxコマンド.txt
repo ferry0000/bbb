@@ -127,6 +127,17 @@ diff ファイル名 ファイル名　二つのファイルの差分を表示
 scp ローカルファイル名 ユーザー名@ホスト名:リモートサーバディレクトリ　ローカルからリモートサーバにファイルをコピー
 scp -r ローカルディレクトリ名 ユーザー名@ホスト名:リモートサーバディレクトリ　ローカルからリモートサーバにディレクトリをコピー
 
+
+getent hosts  example.com　/etc/hosts + DNS + NSS（Name Service Switch）をすべて考慮
+getent ahostsv4  example.com
+
+dig example.com　DNSサーバに直接問い合わせ
+dig +short example.com
+
+nslookup example.com　dig簡易版
+
+ping example.com　名前解決＋疎通確認
+
 タイムゾーン
 timedatectl
 ls -l /etc/localtime
